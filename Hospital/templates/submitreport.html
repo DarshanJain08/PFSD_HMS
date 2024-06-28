@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Prescription Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid;
+        }
+        .form-container, .message-container {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .form-group-half {
+            flex: 1;
+            min-width: 45%;
+            margin-right: 5%;
+        }
+        .form-group-half:last-child {
+            margin-right: 0;
+        }
+        .form-group input[type="radio"] {
+            width: auto;
+        }
+        .form-group .radio-group {
+            display: flex;
+            gap: 10px;
+        }
+        .form-group .radio-group label {
+            margin-right: 20px;
+        }
+        .submit-btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+        .message-container img {
+            width: 100%;
+        }
+        .ok-btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0;
+        }
+        .ok-btn:hover {
+            background-color: #0056b3;
+        }
+        @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+        }
+
+        .blink {
+            color: green;
+            animation: blink 1s infinite;
+        }
+    </style>
+</head>
+
+<body>
+{% include 'doctornavbar.html' %}
+<br>
+    <div class="container form-container active">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }} blink">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <img src="https://images.pexels.com/photos/139398/thermometer-headache-pain-pills-139398.jpeg?cs=srgb&dl=pexels-pixabay-139398.jpg&fm=jpg" alt="Doctor Prescription Image" height="200px" width="500px" style="border-radius: 10px;" >
+        <h2>Doctor Prescription Form</h2>
+        <form method="post" action="{% url 'submitreport' doctor_id=doctor_id %}" id="prescriptionForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-group-half">
+                    <label for="patientName"><b>Patient Name</b></label>
+                    <input type="text" id="patientName" name="pname" required>
+                </div>
+                <div class="form-group-half">
+                    <label for="patientAge"><b>Patient Age</b></label>
+                    <input type="number" id="patientAge" name="page" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-group-half">
+                    <label for="email"><b>Email</b></label>
+                    <input type="email" id="email" name="pemail" required>
+                </div>
+                <div class="form-group-half">
+                    <label for="phone"><b>Phone</b></label>
+                    <input type="tel" id="phone" name="pphone" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label><b>Gender</b></label>
+                <div class="radio-group">
+                    <label><input type="radio" name="pgender" value="male" required> Male</label>
+                    <label><input type="radio" name="pgender" value="female" required> Female</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="diagnosis"><b>Diagnosis</b></label>
+                <textarea id="diagnosis" name="pdiagnosis" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="prescription"><b>Prescription</b></label>
+                <textarea id="prescription" name="pprescription" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="doctorname"><b>Doctor Name</b></label>
+                <input type="text" id="doctorname" name="doctorname" required></input>
+            </div>
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+
+<br>
+
+</body>
+</html>

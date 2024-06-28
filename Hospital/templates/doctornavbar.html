@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Navbar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin-top: 80px; /* Add top margin to avoid content being hidden behind the fixed navbar */
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #002266;
+            padding: 10px 15px; /* Adjust padding for less spacing */
+            width: 100%; /* Set the width of the navbar */
+            position: fixed; /* Fix the navbar to the top of the page */
+            top: 0; /* Ensure it is at the top */
+            z-index: 1000; /* Ensure it is above other content */
+            left: 0; /* Ensure the navbar spans the entire width */
+        }
+
+        .navbar-brand a {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 15px; /* Add some space between the logo and the links */
+        }
+
+        .navbar-menu {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .navbar-links {
+            display: flex;
+            list-style: none;
+            margin-right: auto; /* Align the links to the start (left) */
+            margin-left: 150px;
+        }
+
+        .navbar-links li {
+            margin: 0 30px; /* Reduce the margin between links */
+        }
+
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            position: relative; /* Position relative for absolute positioning of square */
+        }
+
+        .navbar-links a:hover::before {
+            content: '';
+            position: absolute;
+            top: 50%; /* Position the square in the middle vertically */
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: translateY(-50%); /* Center the square vertically */
+            box-sizing: border-box;
+        }
+
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            margin-left: 10px; /* Reduce the margin to the user icon */
+            margin-right: 20px; /* Reduce the margin to the right */
+            color: white;
+            margin-right: 50px;
+        }
+
+        .navbar-user #username {
+            margin-right: 15px;
+        }
+
+        .btn-logout {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-logout:hover {
+            background-color: #ff3333;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar-links {
+                display: none;
+            }
+
+            .navbar-menu {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+            }
+
+            .navbar-user {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .btn-logout {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <a href="#">BrandName</a>
+        </div>
+        <div class="navbar-menu">
+            <ul class="navbar-links">
+                <li><a href="{% url 'viewappointments' doctor_id=doctor_id %}">View Appointments</a></li>
+                <li><a href="{% url 'submitreport' doctor_id=doctor_id %}">Submit Report</a></li>
+            </ul>
+            <div class="navbar-user">
+                <span id="username">{{name}}</span>
+                <a class="btn-logout" href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <!-- Your page content goes here -->
+    </div>
+
+    <script>
+        function logout() {
+            console.log('Logging out...');
+            window.location.href = '/'; // Redirect to the desired URL
+        }
+    </script>
+</body>
+</html>

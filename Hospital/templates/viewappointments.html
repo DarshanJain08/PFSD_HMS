@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Appointments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2; /* Set a light background color */
+        }
+
+        .container {
+            width: 80%; /* Set a width for the content */
+            margin: 20px auto; /* Center align the content */
+            background-color: white; /* Set a white background for the container */
+            padding: 20px; /* Add some padding */
+            border-radius: 8px; /* Add rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+        }
+
+        h1 {
+            color: #333; /* Set dark color for headings */
+        }
+
+        table {
+            width: 100%; /* Make the table fill its container */
+            border-collapse: collapse; /* Collapse table borders */
+            margin-top: 20px; /* Add some margin at the top */
+        }
+
+        th, td {
+            border: 1px solid #ddd; /* Add borders to cells */
+            padding: 10px; /* Add padding inside cells */
+            text-align: left; /* Align text to the left */
+        }
+
+        th {
+            background-color: #f2f2f2; /* Light gray background for header cells */
+            color: #333; /* Dark color for header text */
+        }
+
+        /* Alternate row colors */
+        tbody tr:nth-child(odd) {
+            background-color: #fff; /* White background for odd rows */
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #cce5ff; /* Light blue background for even rows */
+        }
+
+        /* Add hover effect for table rows */
+        tr:hover {
+            background-color: #f9f9f9; /* Light gray background on hover */
+        }
+    </style>
+</head>
+<body>
+    {% include 'doctornavbar.html' %}
+    <div class="container">
+        <h1>Appointments for Dr. {{ doctor.firstname }} {{ doctor.lastname }}</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>Timing</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.name }}</td>
+                    <td>{{ appointment.email }}</td>
+                    <td>{{ appointment.date }}</td>
+                    <td>{{ appointment.timing }}</td>
+                    <td>{{ appointment.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .no-reports {
+            text-align: center;
+            color: #888;
+        }
+        .btn-download {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    {% include 'personnavbar.html' %}
+    <div class="container">
+        <h2>Your Reports</h2>
+        {% if reports %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>Diagnosis</th>
+                        <th>Prescription</th>
+                        <th>Doctor Name</th>
+                        <th>Action</th> <!-- New column for Download button -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                        <tr>
+                            <td>{{ report.pname }}</td>
+                            <td>{{ report.page }}</td>
+                            <td>{{ report.pemail }}</td>
+                            <td>{{ report.pphone }}</td>
+                            <td>{{ report.pgender }}</td>
+                            <td>{{ report.pdiagnosis }}</td>
+                            <td>{{ report.pprescription }}</td>
+                            <td>{{ report.doctorname }}</td>
+                            <td><button class="btn-download" onclick="downloadPDF('{{ report.pname }}', '{{ report.page }}', '{{ report.pemail }}', '{{ report.pphone }}', '{{ report.pgender }}', '{{ report.pdiagnosis }}', '{{ report.pprescription }}', '{{ report.doctorname }}')">Download</button></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="no-reports">No reports available.</p>
+        {% endif %}
+    </div>
+
+    <!-- Add jsPDF library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script>
+        async function downloadPDF(name, age, email, phone, gender, diagnosis, prescription, doctor) {
+            // Load jsPDF module
+            const { jsPDF } = window.jspdf;
+
+            // Initialize jsPDF
+            const doc = new jsPDF();
+
+            // Set document properties
+            doc.setProperties({
+                title: 'Patient Report',
+                subject: 'Health Report',
+                author: 'Health First',
+                keywords: 'report, health, patient'
+            });
+
+            // Add content to PDF
+            doc.text(`Patient Name: ${name}`, 10, 10);
+            doc.text(`Age: ${age}`, 10, 20);
+            doc.text(`Email: ${email}`, 10, 30);
+            doc.text(`Phone: ${phone}`, 10, 40);
+            doc.text(`Gender: ${gender}`, 10, 50);
+            doc.text(`Diagnosis: ${diagnosis}`, 10, 60);
+            doc.text(`Prescription: ${prescription}`, 10, 70);
+            doc.text(`Doctor Name: ${doctor}`, 10, 80);
+
+            // Save the PDF
+            doc.save(`${name}_report.pdf`);
+        }
+    </script>
+</body>
+</html>
